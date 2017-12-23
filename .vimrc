@@ -67,34 +67,67 @@ set encoding=utf-8
 set fileencodings=utf-8,iso-2022-jp,cp932,euc-jp,shift-jis,default,latin,EUC-UCS2
 set ignorecase
 
-" GUI Options
-set guioptions-=m " Hide Menubar 
+" --- GUI Options
+set guioptions-=m " Hide Menubar
 set guioptions-=T " Hide Toolbar
 
-" Where to store .swp files
+" --- Where to store .swp files
 set directory=$HOME/.vim/bk
 
-" Show special chars
+" --- Show special chars
 set list
 set listchars=tab:>\ ,trail:-
 
-" Status line
+" --- Status line
 let &statusline='%F%m%r%h%w [FORMAT=%{&ff}] [ENC=%{&fileencoding}] [TYPE=%Y] [ASCII=\%03.3b] [HEX=\%02.2B] [POS=%04l,%04v][%p%%] [LEN=%L]'
 
-
-" かわいい は せいぎ
-syntax on 
+" //////////////////// colours ////////////////////
+" --- かわいい は せいぎ!
+syntax on
+set background=dark
+colorscheme solarized
+function! ToggleBackground()
+  if(&background=='dark')
+    set background=light
+  else
+    set background=dark
+  endif
+endfunction
 
 " //////////////////// hlsearch ////////////////////
 set hlsearch
 function! ToggleHighlight()
-    if(&hlsearch)
-        set nohlsearch
-    else
-        set hlsearch
-    endif
+  if(&hlsearch)
+    set nohlsearch
+  else
+      set hlsearch
+  endif
 endfunction
 
+" ///////////// ファイルタイプ別の設定 /////////////
+augroup fileTypeIndent
+  autocmd!
+
+  " --- markdown
+  autocmd BufNewFile,BufRead *.md setlocal background=light
+
+  " --- rest
+  autocmd BufNewFile,BufRead *.rst setlocal background=light
+
+  " --- Python
+  autocmd BufNewFile,BufRead *.py setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
+
+  " --- C/CPP
+  autocmd BufNewFile,BufRead *.c setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+  autocmd BufNewFile,BufRead *.cpp setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+  autocmd BufNewFile,BufRead *.h setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+  autocmd BufNewFile,BufRead *.hpp setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+
+  " --- Makefile
+  autocmd BufNewFile,BufRead *.mk setlocal tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
+  autocmd BufNewFile,BufRead Makefile setlocal tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
+  autocmd BufNewFile,BufRead makefile setlocal tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
+augroup END
 
 " //////////////////// keymaps ////////////////////
 " Space + . --- edit .vimrc
@@ -109,12 +142,16 @@ nnoremap <silent> <Space>,
 nnoremap <silent> <Space>h
 \       :call ToggleHighlight()<CR>
 
+" Space + b --- toggle background
+nnoremap <silent> <Space>b
+\       :call ToggleBackground()<CR>
+
 " Ctrl W + A --- split horizontal
 noremap <silent> <C-w><C-a>
 \       :split<CR>
 
 " Space + ] --- Make tag file
-noremap <Space>] 
+noremap <Space>]
 \       :<C-u>!ctags -R -V<CR>
 
 " Ctrl + c + t --- open new tab

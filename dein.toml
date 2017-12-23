@@ -9,3 +9,5 @@ repo = 'Shougo/vimproc.vim'
 hook_post_update = '''
   let g:dein#plugin.build = 'make'
 '''
+[[plugins]]
+repo = 'altercation/vim-colors-solarized'
