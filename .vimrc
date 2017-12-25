@@ -94,6 +94,24 @@ function! ToggleBackground()
   endif
 endfunction
 
+" //////////////// vimsehll settings ////////////////
+" show current directory
+let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
+let g:vimshell_prompt = '$ '
+
+" use bash history
+let g:vimshell_external_history_path = expand('~/.bash_history')
+
+" /////////////// vimfiler settings ///////////////
+let g:vimfiler_as_default_explorer = 1
+
+" allow dangerous command (eg. delete)
+let g:vimfiler_safe_mode_by_default = 0
+
+
+" //////////////// tagexpl settings ////////////////
+let g:SrcExpl_RefreshTime = 1
+
 " //////////////////// hlsearch ////////////////////
 set hlsearch
 function! ToggleHighlight()
@@ -130,6 +148,11 @@ augroup fileTypeIndent
 augroup END
 
 " //////////////////// keymaps ////////////////////
+
+" Space + q --- toggle trinity
+nnoremap <silent> <Space>q
+\       :TrinityToggleAll<CR>
+
 " Space + . --- edit .vimrc
 nnoremap <silent> <Space>.
 \       :<C-u>edit $MYVIMRC<CR>
@@ -137,6 +160,30 @@ nnoremap <silent> <Space>.
 " Space + , --- reload .vimrc
 nnoremap <silent> <Space>,
 \       :<C-u>source $MYVIMRC<CR>
+
+" Space + t --- toggle taglist
+nnoremap <silent> <Space>t
+\       :<C-u>TlistToggle<CR>
+
+" Space + n --- toggle NERDTree
+noremap <silent> <Space>n 
+\       :<C-u>TrinityToggleNERDTree<CR>
+
+" Space + m --- show marks
+nnoremap <silent> <Space>m
+\       :<C-u>marks<CR>
+
+" Space + r --- show register
+nnoremap <silent> <Space>r
+\       :<C-u>registers<CR>
+
+" Space + f --- start VimFiler
+nnoremap <silent> <Space>f 
+\       :VimFiler<CR>
+
+" Space + s --- start VimShell
+nnoremap <silent> <Space>s
+\       :VimShell<CR>
 
 " Space + h --- toggle highlight
 nnoremap <silent> <Space>h
